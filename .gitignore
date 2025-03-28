@@ -1,0 +1,29 @@
+# Ignore virtual environment
+venv/
+.env
+__pycache__/
+
+# Model files
+*.pth
+*.dll
+*.exe
+*.lib
+
+# Cache
+*.log
+*.pyc
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+venv/
+modules/wav2lip.pth
+*.dll
+*.lib
+*.exe
+*.pyd
+
+
+.env
+
+
