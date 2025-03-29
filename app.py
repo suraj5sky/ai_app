@@ -7,6 +7,7 @@ from modules.lipsync import run_lipsync   # ✅ Added Wav2Lip lipsync import
 from dotenv import load_dotenv
 import os
 import requests
+from flask import Flask, render_template
 
 # ✅ Load environment variables
 load_dotenv()
@@ -35,10 +36,10 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 # ✅ Home Route
 @app.route('/')
 def home():
-    return jsonify({
-        "message": "🎬 Welcome to AI Video Creator Backend (gTTS + Hugging Face + OpenAI Ready)",
-        "status": "running"
-    })
+    return render_template('index.html')  # Ensure this is returning the HTML
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # ✅ Health Check
 @app.route('/health')
