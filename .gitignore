@@ -32,3 +32,4 @@ Wav2Lip/
 *.mp3
 *.wav
 /static/output/
+.env
