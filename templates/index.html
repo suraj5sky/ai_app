@@ -29,57 +29,55 @@
   <button onclick="generateVideo()">Generate Video</button>
   <video id="generatedVideo" controls style="display:none;"></video>
 
-  <script>
-    async function generateTTS() {
-      const text = document.getElementById("ttsText").value;
-      const res = await fetch("/generate_tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
-      });
-      const data = await res.json();
-      if (data.audio_url) {
-        const audio = document.getElementById("ttsAudio");
-        audio.src = data.audio_url;
-        audio.style.display = "block";
-        audio.play();
-      }
+ <script>
+  async function generateTTS() {
+    const text = document.getElementById("ttsText").value;
+    const res = await fetch("/api/generate_tts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text })
+    });
+    const data = await res.json();
+    if (data.audio_url) {
+      const audio = document.getElementById("ttsAudio");
+      audio.src = data.audio_url;
+      audio.style.display = "block";
+      audio.play();
     }
+  }
 
-    async function generateImage() {
-      const prompt = document.getElementById("imagePrompt").value;
-      const res = await fetch("/generate_image", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await res.json();
-      if (data.image_url) {
-        const img = document.getElementById("generatedImage");
-        img.src = data.image_url;
-        img.style.display = "block";
-      } else {
-        alert("Image generation failed.");
-      }
+  async function generateImage() {
+    const prompt = document.getElementById("imagePrompt").value;
+    const res = await fetch("/api/generate_image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    if (data.image_url) {
+      const img = document.getElementById("generatedImage");
+      img.src = data.image_url;
+      img.style.display = "block";
+    } else {
+      alert("Image generation failed.");
     }
+  }
 
-    async function generateVideo() {
-      const script = document.getElementById("videoScript").value;
-      const res = await fetch("/generate_video", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ script })
-      });
-      const data = await res.json();
-      if (data.video_url) {
-        const video = document.getElementById("generatedVideo");
-        video.src = data.video_url;
-        video.style.display = "block";
-        video.play();
-      } else {
-        alert("Video generation failed.");
-      }
+  async function generateVideo() {
+    const script = document.getElementById("videoScript").value;
+    const res = await fetch("/api/generate_video", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ script })
+    });
+    const data = await res.json();
+    if (data.video_url) {
+      const video = document.getElementById("generatedVideo");
+      video.src = data.video_url;
+      video.style.display = "block";
+      video.play();
+    } else {
+      alert("Video generation failed.");
     }
-  </script>
-</body>
-</html>
+  }
+</script>

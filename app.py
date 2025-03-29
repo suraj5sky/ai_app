@@ -47,7 +47,7 @@ def health_check():
     return jsonify({"status": "ok", "message": "Server is up and running"})
 
 # ✅ TTS API
-@app.route('/api/tts', methods=['POST'])
+@app.route('/api/generate_tts', methods=['POST'])
 def generate_tts():
     if not request.is_json:
         return jsonify({'status': 'error', 'message': 'Request content-type must be application/json'}), 400
@@ -128,7 +128,7 @@ def serve_upload(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 # ✅ Video Creator API with lipsync toggle
-@app.route('/api/create_video', methods=['POST'])
+@app.route('/api/generate_video', methods=['POST'])
 def create_video_api():
     try:
         audio_file = request.files.get('audio')
