@@ -1,91 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKY AI Tools</title>
+  <meta charset="UTF-8">
+  <title>SKY AI Tools</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 30px; }
+    textarea, input { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    h1, h2 { color: #4A90E2; }
+    img, video, audio { max-width: 100%; margin-top: 20px; }
+  </style>
 </head>
 <body>
-    <h1>SKY AI Tools</h1>
-    
-    <!-- 🔊 Text-to-Speech -->
-    <h2>🔊 Text-to-Speech</h2>
-    <form id="ttsForm">
-        <label for="ttsText">Enter text:</label><br>
-        <textarea id="ttsText" rows="4" cols="50" placeholder="Type text for speech..."></textarea><br><br>
-        <button type="submit">Convert to Speech</button>
-    </form>
-    <div id="ttsOutput"></div>
-    
-    <!-- 🖼️ AI Image Generator -->
-    <h2>🖼️ AI Image Generator</h2>
-    <form id="imageForm">
-        <label for="imageDesc">Enter image description:</label><br>
-        <input type="text" id="imageDesc" placeholder="Describe your image..."><br><br>
-        <button type="submit">Generate Image</button>
-    </form>
-    <div id="imageOutput"></div>
-    
-    <!-- 🎬 AI Video Creator -->
-    <h2>🎬 AI Video Creator</h2>
-    <form id="videoForm">
-        <label for="videoText">Enter your script:</label><br>
-        <textarea id="videoText" rows="4" cols="50" placeholder="Type your script here..."></textarea><br><br>
-        <button type="submit">Generate Video</button>
-    </form>
-    <div id="videoOutput"></div>
-    
-    <script>
-        // TTS API Call
-        document.getElementById('ttsForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const text = document.getElementById('ttsText').value;
-            const response = await fetch('/api/tts', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text })
-            });
-            const result = await response.json();
-            if (result.status === 'success') {
-                document.getElementById('ttsOutput').innerHTML = `<audio controls><source src="${result.audio_url}" type="audio/mpeg"></audio>`;
-            } else {
-                document.getElementById('ttsOutput').innerText = `❌ Error: ${result.message}`;
-            }
-        });
-        
-        // Image Generation API Call
-        document.getElementById('imageForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const description = document.getElementById('imageDesc').value;
-            const response = await fetch('/api/image', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ description })
-            });
-            const result = await response.json();
-            if (result.status === 'success') {
-                document.getElementById('imageOutput').innerHTML = `<img src="${result.image_url}" alt="Generated Image">`;
-            } else {
-                document.getElementById('imageOutput').innerText = `❌ Error: ${result.message}`;
-            }
-        });
-        
-        // Video Generation API Call
-        document.getElementById('videoForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const scriptText = document.getElementById('videoText').value;
-            const response = await fetch('/api/video', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ script: scriptText })
-            });
-            const result = await response.json();
-            if (result.status === 'success') {
-                document.getElementById('videoOutput').innerHTML = `<video width="320" height="240" controls><source src="${result.video_url}" type="video/mp4"></video>`;
-            } else {
-                document.getElementById('videoOutput').innerText = `❌ Error: ${result.message}`;
-            }
-        });
-    </script>
+  <h1>🚀 SKY AI Tools</h1>
+
+  <h2>🔊 Text-to-Speech</h2>
+  <textarea id="ttsText" placeholder="Enter text..."></textarea>
+  <button onclick="generateTTS()">Convert to Speech</button>
+  <audio id="ttsAudio" controls style="display:none;"></audio>
+
+  <h2>🖼️ AI Image Generator</h2>
+  <input id="imagePrompt" placeholder="Enter image description..." />
+  <button onclick="generateImage()">Generate Image</button>
+  <img id="generatedImage" style="display:none;" />
+
+  <h2>🎬 AI Video Creator</h2>
+  <textarea id="videoScript" placeholder="Enter video script..."></textarea>
+  <button onclick="generateVideo()">Generate Video</button>
+  <video id="generatedVideo" controls style="display:none;"></video>
+
+  <script>
+    async function generateTTS() {
+      const text = document.getElementById("ttsText").value;
+      const res = await fetch("/generate_tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      if (data.audio_url) {
+        const audio = document.getElementById("ttsAudio");
+        audio.src = data.audio_url;
+        audio.style.display = "block";
+        audio.play();
+      }
+    }
+
+    async function generateImage() {
+      const prompt = document.getElementById("imagePrompt").value;
+      const res = await fetch("/generate_image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      if (data.image_url) {
+        const img = document.getElementById("generatedImage");
+        img.src = data.image_url;
+        img.style.display = "block";
+      } else {
+        alert("Image generation failed.");
+      }
+    }
+
+    async function generateVideo() {
+      const script = document.getElementById("videoScript").value;
+      const res = await fetch("/generate_video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ script })
+      });
+      const data = await res.json();
+      if (data.video_url) {
+        const video = document.getElementById("generatedVideo");
+        video.src = data.video_url;
+        video.style.display = "block";
+        video.play();
+      } else {
+        alert("Video generation failed.");
+      }
+    }
+  </script>
 </body>
 </html>
