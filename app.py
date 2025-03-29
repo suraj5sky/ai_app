@@ -6,6 +6,7 @@ from modules.video_creator import create_video
 from modules.lipsync import run_lipsync   # ✅ Added Wav2Lip lipsync import
 from dotenv import load_dotenv
 import os
+import requests
 
 # ✅ Load environment variables
 load_dotenv()
@@ -180,3 +181,19 @@ def serve_output(filename):
 # ✅ Run Flask server
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)  # 'host' important for cloud platforms
+
+# Upload Wav2Lip file via Google drive or other cloud storage platforms
+MODEL_URL = "https://drive.google.com/file/d/1DnMDc4SsVtOxMuSU62jRkDIS1CqRZ3AS/view?usp=sharing"
+MODEL_PATH = "models/wav2lip.pth"
+
+def download_model():
+    if not os.path.exists(MODEL_PATH):
+        print("Downloading Wav2Lip model...")
+        os.makedirs("models", exist_ok=True)
+        response = requests.get(MODEL_URL)
+        with open(MODEL_PATH, "wb") as f:
+            f.write(response.content)
+        print("Model downloaded successfully!")
+
+# Call before using the model
+download_model() 
