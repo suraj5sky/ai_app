@@ -14,70 +14,91 @@
 <body>
   <h1>🚀 SKY AI Tools</h1>
 
+  <!-- TTS Section -->
   <h2>🔊 Text-to-Speech</h2>
   <textarea id="ttsText" placeholder="Enter text..."></textarea>
   <button onclick="generateTTS()">Convert to Speech</button>
   <audio id="ttsAudio" controls style="display:none;"></audio>
 
+  <!-- Image Generator Section -->
   <h2>🖼️ AI Image Generator</h2>
   <input id="imagePrompt" placeholder="Enter image description..." />
   <button onclick="generateImage()">Generate Image</button>
   <img id="generatedImage" style="display:none;" />
 
-  <h2>🎬 AI Video Creator</h2>
-  <textarea id="videoScript" placeholder="Enter video script..."></textarea>
+  <!-- Video Generator Section -->
+  <h2>🎬 AI Video Generator (Wav2Lip)</h2>
+  <input type="file" id="videoAudio" accept="audio/*" />
+  <input type="file" id="videoImage" accept="image/*" />
   <button onclick="generateVideo()">Generate Video</button>
-  <video id="generatedVideo" controls style="display:none;"></video>
+  <video id="generatedVideo" controls style="display:none; width: 500px; margin-top: 10px;"></video>
 
- <script>
-  async function generateTTS() {
-    const text = document.getElementById("ttsText").value;
-    const res = await fetch("/api/generate_tts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text })
-    });
-    const data = await res.json();
-    if (data.audio_url) {
-      const audio = document.getElementById("ttsAudio");
-      audio.src = data.audio_url;
-      audio.style.display = "block";
-      audio.play();
+  <script>
+    // TTS API Call
+    async function generateTTS() {
+      const text = document.getElementById("ttsText").value;
+      const res = await fetch("/api/generate_tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      if (data.audio_url) {
+        const audio = document.getElementById("ttsAudio");
+        audio.src = data.audio_url;
+        audio.style.display = "block";
+        audio.play();
+      }
     }
-  }
 
-  async function generateImage() {
-    const prompt = document.getElementById("imagePrompt").value;
-    const res = await fetch("/api/generate_image", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt })
-    });
-    const data = await res.json();
-    if (data.image_url) {
-      const img = document.getElementById("generatedImage");
-      img.src = data.image_url;
-      img.style.display = "block";
-    } else {
-      alert("Image generation failed.");
+    // Image API Call
+    async function generateImage() {
+      const prompt = document.getElementById("imagePrompt").value;
+      const res = await fetch("/api/generate_image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      if (data.image_url) {
+        const img = document.getElementById("generatedImage");
+        img.src = data.image_url;
+        img.style.display = "block";
+      } else {
+        alert("Image generation failed.");
+      }
     }
-  }
 
-  async function generateVideo() {
-    const script = document.getElementById("videoScript").value;
-    const res = await fetch("/api/generate_video", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ script })
-    });
-    const data = await res.json();
-    if (data.video_url) {
-      const video = document.getElementById("generatedVideo");
-      video.src = data.video_url;
-      video.style.display = "block";
-      video.play();
-    } else {
-      alert("Video generation failed.");
+    // Video API Call using file upload
+    async function generateVideo() {
+      const audioInput = document.getElementById("videoAudio").files[0];
+      const imageInput = document.getElementById("videoImage").files[0];
+
+      if (!audioInput || !imageInput) {
+        alert("Please upload both audio and image files.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("audio", audioInput);
+      formData.append("image", imageInput);
+      formData.append("lip_sync", "true");
+
+      const res = await fetch("/api/generate_video", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      if (data.video_url) {
+        const video = document.getElementById("generatedVideo");
+        video.src = data.video_url;
+        video.style.display = "block";
+        video.play();
+      } else {
+        alert("Video generation failed: " + (data.message || "Unknown error"));
+      }
     }
-  }
-</script>
+  </script>
+</body>
+</html>
