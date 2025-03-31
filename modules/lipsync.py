@@ -1,11 +1,12 @@
-# modules/lipsync.py
-
 import os
 import subprocess
 from pathlib import Path
+import traceback
+import sys
+
 
 def run_lipsync(face_image_path, audio_path, output_path,
-                wav2lip_model_path="ai_app/modules/wav2lip.pth"):
+                wav2lip_model_path="modules/wav2lip.pth"):
     """
     Runs the Wav2Lip inference to generate a lip-synced video.
 
@@ -19,37 +20,50 @@ def run_lipsync(face_image_path, audio_path, output_path,
         bool: True if successful, False if failed
     """
     try:
-        # Build absolute paths
         base_dir = Path(__file__).resolve().parent.parent
-        inference_script = base_dir / "Wav2Lip" / "inference.py"
+        wav2lip_dir = base_dir / "Wav2Lip"
+        inference_script = wav2lip_dir / "inference.py"
         model_path = Path(wav2lip_model_path).resolve()
 
-        print("🧠 Wav2Lip Inference Starting...")
-        print(f"📸 Face Image: {face_image_path}")
+        # Validate paths
+        if not inference_script.exists():
+            print(f"❌ Wav2Lip inference.py not found at {inference_script}")
+            return False
+        if not model_path.exists():
+            print(f"❌ Wav2Lip model not found at {model_path}")
+            return False
+        if not Path(face_image_path).exists():
+            print(f"❌ Face image not found at {face_image_path}")
+            return False
+        if not Path(audio_path).exists():
+            print(f"❌ Audio file not found at {audio_path}")
+            return False
+
+        print("\n🎬 Starting Wav2Lip inference...")
+        print(f"📸 Image: {face_image_path}")
         print(f"🎵 Audio: {audio_path}")
-        print(f"💾 Output: {output_path}")
         print(f"📦 Model: {model_path}")
         print(f"📜 Script: {inference_script}")
+        print(f"💾 Output: {output_path}")
 
-        # Build the command
         command = [
-            "python", str(inference_script),
+    str(Path(sys.executable)), str(inference_script),
             "--checkpoint_path", str(model_path),
             "--face", str(face_image_path),
             "--audio", str(audio_path),
             "--outfile", str(output_path)
         ]
 
-        # Run the subprocess
+        # Run subprocess and capture output
         subprocess.run(command, check=True)
 
         print("✅ Lip-sync video created successfully.")
         return True
 
     except subprocess.CalledProcessError as e:
-        print(f"❌ Error during Wav2Lip execution: {e}")
+        print(f"❌ Subprocess error:\n{e}")
         return False
-
     except Exception as ex:
-        print(f"❌ Unexpected error in lipsync module: {ex}")
+        print("❌ Unexpected error in run_lipsync():")
+        traceback.print_exc()
         return False
