@@ -5,8 +5,10 @@ from modules.image_gen import generate_image
 from modules.video_creator import create_video
 from modules.lipsync import run_lipsync
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 import requests
+import gdown
 
 # ✅ Load environment variables
 load_dotenv()
@@ -38,21 +40,26 @@ os.makedirs(TEMP_FOLDER, exist_ok=True)
 os.makedirs('models', exist_ok=True)
 
 # ✅ Google Drive Model Download (Real Method)
-def download_model():
-    if not os.path.exists(MODEL_PATH):
-        print("⬇️ Downloading Wav2Lip model...")
-        gdrive_id = '1DnMDc4SsVtOxMuSU62jRkDIS1CqRZ3AS'
-        download_url = f'https://drive.google.com/uc?export=download&id={gdrive_id}'
+def download_wav2lip_model():
+    model_url = "https://drive.google.com/uc?id=1DnMDc4SsVtOxMuSU62jRkDIS1CqRZ3AS"  # Replace with actual Google Drive ID
+    model_path = "wav2lip.pth"
+
+    if not os.path.exists(model_path):
+        print("Downloading Wav2Lip model...")
         try:
-            response = requests.get(download_url, stream=True)
+            response = requests.get(model_url, stream=True)
             response.raise_for_status()
-            with open(MODEL_PATH, 'wb') as f:
+            with open(model_path, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:
                         f.write(chunk)
             print("✅ Wav2Lip model downloaded successfully!")
         except Exception as e:
             print(f"❌ Failed to download model: {e}")
+    else:
+        print("✅ Wav2Lip model already exists.")
+
+    return model_path
 
 # ✅ Home Route
 @app.route('/')
@@ -65,6 +72,8 @@ def health_check():
     return jsonify({"status": "ok", "message": "Server is up and running"})
 
 # ✅ TTS API
+MAX_TTS_CHARACTERS = 2000  # Set your preferred limit
+
 @app.route('/api/generate_tts', methods=['POST'])
 def generate_tts():
     if not request.is_json:
@@ -75,6 +84,10 @@ def generate_tts():
     lang = data.get('lang', 'en')
     slow = data.get('slow', False)
 
+    # Check character limit
+    if len(text) > MAX_TTS_CHARACTERS:
+        return jsonify({'error': f'Text too long! Max {MAX_TTS_CHARACTERS} characters allowed.'}), 400
+    
     if not text.strip():
         return jsonify({'status': 'error', 'message': 'No text provided'}), 400
 
@@ -87,6 +100,36 @@ def generate_tts():
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
+@app.route('/generate_tts', methods=['POST'])
+def generate_tts():
+    text = request.form.get('text', '')
+    voice = request.form.get('voice', 'female')  # Default to female voice
+
+    if voice not in ['female', 'male']:
+        return jsonify({'error': 'Invalid voice selection!'}), 400
+
+    # Example: Use voice selection in TTS API
+    tts_api_url = "YOUR_TTS_API_ENDPOINT"
+    payload = {
+        'text': text,
+        'voice': 'en-US-Wavenet-F' if voice == 'female' else 'en-US-Wavenet-D'
+    }
+
+    response = requests.post(tts_api_url, json=payload)
+
+    if response.status_code == 200:
+        # Generate a unique filename
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = f"tts_{voice}_{timestamp}.mp3"
+
+        # Save with proper name
+        with open(f"static/audio/{filename}", "wb") as f:
+            f.write(response.content)
+
+        return jsonify({'audio_url': f'/static/audio/{filename}'})
+    else:
+        return jsonify({'error': 'TTS generation failed'}), 500
+
 # ✅ Image Generator API
 @app.route('/api/generate_image', methods=['POST'])
 def generate_image_api():
@@ -95,8 +138,12 @@ def generate_image_api():
 
     data = request.get_json()
     prompt = data.get("prompt")
+    resolution = data.get("resolution", "1024x1024")  # Default is 1024x1024
     use_openai = data.get("use_openai", False)
-
+    
+     image_url = generate_image(prompt, resolution)
+    return jsonify({"image_url": image_url})
+    
     if not prompt or not prompt.strip():
         return jsonify({"status": "error", "message": "No prompt provided"}), 400
 
@@ -194,5 +241,6 @@ def create_video_api():
 
 # ✅ Start Flask App (after model download)
 if __name__ == '__main__':
-    download_model()
+    model_path = download_wav2lip_model()  # Ensure Wav2Lip model is downloaded before starting Flask
     app.run(debug=True, host='0.0.0.0', port=5000)
+

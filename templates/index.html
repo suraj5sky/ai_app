@@ -2,45 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SKY AI Tools</title>
   <style>
-    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 30px; }
-    textarea, input { width: 100%; padding: 10px; margin-bottom: 10px; }
-    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-    h1, h2 { color: #4A90E2; }
-    img, video, audio { max-width: 100%; margin-top: 20px; }
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; background-color: #f4f4f4; }
+    textarea, input, select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+    button { background-color: #4A90E2; color: white; font-size: 16px; cursor: pointer; border: none; }
+    button:hover { background-color: #357ABD; }
+    h1, h2 { color: #4A90E2; text-align: center; }
+    .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+    img, video, audio { max-width: 100%; margin-top: 15px; display: block; border-radius: 5px; }
+    label { font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>🚀 SKY AI Tools</h1>
-
-  <!-- TTS Section -->
-  <h2>🔊 Text-to-Speech</h2>
-  <textarea id="ttsText" placeholder="Enter text..."></textarea>
-  <button onclick="generateTTS()">Convert to Speech</button>
-  <audio id="ttsAudio" controls style="display:none;"></audio>
-
-  <!-- Image Generator Section -->
-  <h2>🖼️ AI Image Generator</h2>
-  <input id="imagePrompt" placeholder="Enter image description..." />
-  <button onclick="generateImage()">Generate Image</button>
-  <img id="generatedImage" style="display:none;" />
-
-  <!-- Video Generator Section -->
-  <h2>🎬 AI Video Generator (Wav2Lip)</h2>
-  <input type="file" id="videoAudio" accept="audio/*" />
-  <input type="file" id="videoImage" accept="image/*" />
-  <button onclick="generateVideo()">Generate Video</button>
-  <video id="generatedVideo" controls style="display:none; width: 500px; margin-top: 10px;"></video>
+  <div class="container">
+    <h1>🚀 SKY AI Tools</h1>
+    
+    <!-- TTS Section -->
+    <h2>🔊 Text-to-Speech</h2>
+    <textarea id="ttsText" placeholder="Enter text..."></textarea>
+    <label for="voice">Choose a voice:</label>
+    <select id="voice" name="voice">
+      <option value="female">Female</option>
+      <option value="male">Male</option>
+    </select>
+    <button onclick="generateTTS()">Convert to Speech</button>
+    <audio id="ttsAudio" controls style="display:none;"></audio>
+    
+    <!-- Image Generator Section -->
+    <h2>🖼️ AI Image Generator</h2>
+    <input id="imagePrompt" placeholder="Enter image description..." />
+    <label for="resolution">Choose Resolution:</label>
+    <select id="resolution">
+      <option value="512x512">512 x 512 (Fast)</option>
+      <option value="1080x1920">1080 x 1920 (Short)</option>
+      <option value="1920x1080">1920 x 1080 (Longs)</option>
+      <option value="1024x1024" selected>1024 x 1024 (Better)</option>
+      <option value="2048x2048">2048 x 2048 (High Quality)</option>
+    </select>
+    <button onclick="generateImage()">Generate Image</button>
+    <img id="generatedImage" style="display:none;" />
+    
+    <!-- Video Generator Section -->
+    <h2>🎬 AI Video Generator (Wav2Lip)</h2>
+    <label for="videoAudio">Upload Audio (.mp3, .wav):</label>
+    <input type="file" id="videoAudio" accept=".mp3, .wav" />
+    <label for="videoImage">Upload Image (.jpg, .png):</label>
+    <input type="file" id="videoImage" accept=".jpg, .png" />
+    <button onclick="generateVideo()">Generate Video</button>
+    <video id="generatedVideo" controls style="display:none; width: 100%;"></video>
+  </div>
 
   <script>
-    // TTS API Call
     async function generateTTS() {
       const text = document.getElementById("ttsText").value;
+      const voice = document.getElementById("voice").value;
       const res = await fetch("/api/generate_tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text, voice })
       });
       const data = await res.json();
       if (data.audio_url) {
@@ -51,13 +72,13 @@
       }
     }
 
-    // Image API Call
     async function generateImage() {
       const prompt = document.getElementById("imagePrompt").value;
+      const resolution = document.getElementById("resolution").value;
       const res = await fetch("/api/generate_image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ prompt, resolution })
       });
       const data = await res.json();
       if (data.image_url) {
@@ -69,13 +90,12 @@
       }
     }
 
-    // Video API Call using file upload
     async function generateVideo() {
       const audioInput = document.getElementById("videoAudio").files[0];
       const imageInput = document.getElementById("videoImage").files[0];
 
       if (!audioInput || !imageInput) {
-        alert("Please upload both audio and image files.");
+        alert("Please upload both audio (.mp3, .wav) and image (.jpg, .png) files.");
         return;
       }
 

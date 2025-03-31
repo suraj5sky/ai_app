@@ -20,6 +20,13 @@ HEADERS_OAI = {
     "Content-Type": "application/json"
 }
 
+def generate_image(prompt, resolution="1024x1024"):
+    width, height = map(int, resolution.split("x"))  # Convert "1024x1024" → 1024, 1024
+
+    image = model.generate(prompt, width=width, height=height, quality="high")  
+    image.save(f"static/output/generated_image_{resolution}.png")
+
+    return f"static/output/generated_image_{resolution}.png"
 
 def generate_image(prompt, output_folder="static/output", use_openai=False):
     try:
