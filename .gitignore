@@ -33,3 +33,6 @@ Wav2Lip/
 *.wav
 /static/output/
 .env
+__pycache__/
+static/uploads/
+temp/
