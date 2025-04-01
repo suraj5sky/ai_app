@@ -26,41 +26,50 @@ logger = logging.getLogger(__name__)
 
 #✅ ====================== TTS CONFIGURATION ======================
 VOICE_OPTIONS = {
-    #✅ gTTS Voices (Free)
-    'gtts': [
+    # Basic Voices (pyttsx3)
+    'basic': [
+        {'id': 'basic-female-1', 'name': 'Basic Female 1', 'lang': 'en', 'service': 'system', 'gender': 'female'},
+        {'id': 'basic-male-1', 'name': 'Basic Male 1', 'lang': 'en', 'service': 'system', 'gender': 'male'},
+    ],
+    
+    # Normal Voices (gTTS)
+    'normal': [
+        # English
         {'id': 'en-female', 'name': 'English Female', 'lang': 'en', 'service': 'gtts', 'gender': 'female'},
         {'id': 'en-male', 'name': 'English Male', 'lang': 'en', 'tld': 'com.au', 'service': 'gtts', 'gender': 'male'},
         {'id': 'uk-female', 'name': 'British Female', 'lang': 'en', 'tld': 'co.uk', 'service': 'gtts', 'gender': 'female'},
         {'id': 'au-female', 'name': 'Australian Female', 'lang': 'en', 'tld': 'com.au', 'service': 'gtts', 'gender': 'female'},
+        
+        # Hindi
+        {'id': 'hi-female-1', 'name': 'Hindi Female 1', 'lang': 'hi', 'service': 'gtts', 'gender': 'female'},
+        {'id': 'hi-female-2', 'name': 'Hindi Female 2', 'lang': 'hi', 'tld': 'co.in', 'service': 'gtts', 'gender': 'female'},
+        {'id': 'hi-male-1', 'name': 'Hindi Male 1', 'lang': 'hi', 'service': 'gtts', 'gender': 'male'},
+        {'id': 'hi-male-2', 'name': 'Hindi Male 2', 'lang': 'hi', 'tld': 'co.in', 'service': 'gtts', 'gender': 'male'},
+        
+        # Spanish
         {'id': 'es-female', 'name': 'Spanish Female', 'lang': 'es', 'service': 'gtts', 'gender': 'female'},
-        {'id': 'fr-female', 'name': 'French Female', 'lang': 'fr', 'service': 'gtts', 'gender': 'female'},
-        {'id': 'de-male', 'name': 'German Male', 'lang': 'de', 'service': 'gtts', 'gender': 'male'},
-        {'id': 'it-female', 'name': 'Italian Female', 'lang': 'it', 'service': 'gtts', 'gender': 'female'},
+        {'id': 'es-male', 'name': 'Spanish Male', 'lang': 'es', 'tld': 'com.mx', 'service': 'gtts', 'gender': 'male'},
     ],
     
-    #✅ ElevenLabs Voices (Premium)
-    'elevenlabs': [
-        {'id': '21m00Tcm4TlvDq8ikWAM', 'name': 'Rachel (Female)', 'service': 'elevenlabs', 'gender': 'female'},
-        {'id': '29vD33N1CtxCmqQRPOHJ', 'name': 'Drew (Male)', 'service': 'elevenlabs', 'gender': 'male'},
-        {'id': 'AZnzlk1XvdvUeBnXmlld', 'name': 'Domi (Female)', 'service': 'elevenlabs', 'gender': 'female'},
-        {'id': 'EXAVITQu4vr4xnSDxMaL', 'name': 'Sarah (Female)', 'service': 'elevenlabs', 'gender': 'female'},
-        {'id': 'ErXwobaYiN019PkySvjV', 'name': 'Antoni (Male)', 'service': 'elevenlabs', 'gender': 'male'},
-        {'id': 'MF3mGyEYCl7XYWbV9V6O', 'name': 'Elli (Female)', 'service': 'elevenlabs', 'gender': 'female'},
-    ],
-    
-    #✅ System Voices (pyttsx3)
-    'system': []
+    # Advanced Voices (ElevenLabs)
+    'advanced': [
+        {'id': '21m00Tcm4TlvDq8ikWAM', 'name': 'Premium Female 1', 'service': 'elevenlabs', 'gender': 'female'},
+        {'id': '29vD33N1CtxCmqQRPOHJ', 'name': 'Premium Male 1', 'service': 'elevenlabs', 'gender': 'male'},
+        {'id': 'AZnzlk1XvdvUeBnXmlld', 'name': 'Premium Female 2', 'service': 'elevenlabs', 'gender': 'female'},
+        {'id': 'EXAVITQu4vr4xnSDxMaL', 'name': 'Premium Female 3', 'service': 'elevenlabs', 'gender': 'female'},
+    ]
 }
 
-#✅ Initialize system voices
+# Initialize basic voices from system
 try:
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')
-    VOICE_OPTIONS['system'] = [
-        {'id': f'system-{i}', 'name': v.name, 'service': 'system', 'gender': 'male' if 'male' in v.name.lower() else 'female'}
-        for i, v in enumerate(voices[:4])  # Limit to first 4 system voices
+    basic_voices = [
+        {'id': f'basic-female-1', 'name': 'Basic Female', 'service': 'system', 'gender': 'female'},
+        {'id': f'basic-male-1', 'name': 'Basic Male', 'service': 'system', 'gender': 'male'}
     ]
-    engine = None  # Close the engine after initialization
+    VOICE_OPTIONS['basic'] = basic_voices
+    engine = None
 except Exception as e:
     logger.warning(f"Could not initialize pyttsx3: {str(e)}")
 
@@ -271,19 +280,43 @@ def health_check():
 
 @app.route('/api/voices', methods=['GET'])
 def get_voices():
-    """Get all available voice options"""
-    available_voices = []
-    available_voices.extend(VOICE_OPTIONS['gtts'])
-    available_voices.extend(VOICE_OPTIONS['system'])
+    """Get all available voice options organized by category"""
+    response = {
+        'categories': {
+            'basic': {
+                'name': 'Basic',
+                'description': 'Built-in system voices',
+                'voices': VOICE_OPTIONS['basic']
+            },
+            'normal': {
+                'name': 'Normal',
+                'description': 'Standard quality voices',
+                'voices': VOICE_OPTIONS['normal']
+            }
+        }
+    }
     
     if ELEVENLABS_API_KEY:
-        available_voices.extend(VOICE_OPTIONS['elevenlabs'])
+        response['categories']['advanced'] = {
+            'name': 'Advanced',
+            'description': 'High-quality premium voices',
+            'voices': VOICE_OPTIONS['advanced']
+        }
     
-    return jsonify({
-        'status': 'success',
-        'voices': available_voices,
-        'count': len(available_voices)
-    })
+    # Add language filters
+    response['languages'] = [
+        {'code': 'en', 'name': 'English'},
+        {'code': 'hi', 'name': 'Hindi'},
+        {'code': 'es', 'name': 'Spanish'}
+    ]
+    
+    # Add gender filters
+    response['genders'] = [
+        {'code': 'female', 'name': 'Female'},
+        {'code': 'male', 'name': 'Male'}
+    ]
+    
+    return jsonify(response)
 
 @app.route('/api/generate_tts', methods=['POST'])
 def generate_tts():

@@ -11,7 +11,7 @@
       --primary-light: #3b82f6;
       --primary-dark: #1d4ed8;
       --secondary: #7c3aed;
-      --accent: #6366f1;
+      --accent: #818cf8;
       --dark: #1e293b;
       --light: #f8fafc;
       --gray: #94a3b8;
@@ -36,58 +36,187 @@
       line-height: 1.6;
     }
     
+    /* New Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-logo svg {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .login-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .login-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .google-login {
+      background: white;
+      color: var(--dark);
+      border: 1px solid var(--gray);
+    }
+    
+    .google-login:hover {
+      background: #f8fafc;
+    }
+    
+    .email-login {
+      background: var(--primary);
+      color: white;
+      border: 1px solid var(--primary);
+    }
+    
+    .email-login:hover {
+      background: var(--primary-dark);
+    }
+    
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 1.5rem;
     }
     
+    /* Compact Header */
     header {
       text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
+      margin-bottom: 2rem;
+      padding-top: 1rem;
     }
     
+    /* Cloudy Infinity Logo */
     .logo-container {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .logo {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      animation: pulse 4s ease-in-out infinite;
     }
-    
-    .logo {
-      font-size: 2.5rem;
-      color: white;
-      transform: rotate(10deg);
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .logo-cloud {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      filter: blur(4px);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .logo-cloud:nth-child(1) {
+      top: 10px;
+      left: 15px;
+      width: 25px;
+      height: 25px;
+      animation-delay: 0s;
+    }
+
+    .logo-cloud:nth-child(2) {
+      top: 25px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      animation-delay: 1s;
+    }
+
+    .logo-cloud:nth-child(3) {
+      bottom: 15px;
+      left: 20px;
+      width: 18px;
+      height: 18px;
+      animation-delay: 2s;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.05) rotate(1deg); }
+      50% { transform: scale(1) rotate(-1deg); }
+      75% { transform: scale(1.03) rotate(0.5deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-5px) translateX(3px); }
+      50% { transform: translateY(0) translateX(5px); }
+      75% { transform: translateY(3px) translateX(-2px); }
     }
     
     h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
       background: linear-gradient(to right, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      display: inline-block;
+      margin-bottom: 0.25rem;
     }
     
     .tagline {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--gray);
-      max-width: 600px;
-      margin: 0 auto;
+      margin-bottom: 0.5rem;
+							
+    }
+    
+    .subtagline {
+      font-size: 0.9rem;
+					   
+      color: var(--success);
+      font-weight: 500;
+							 
     }
     
     .main-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 1.5rem;
     }
     
     @media (min-width: 1024px) {
@@ -295,54 +424,128 @@
       background-size: 1em;
     }
     
-    .voice-option {
-      display: flex;
-      align-items: center;
-      padding: 0.5rem;
-    }
-    
-    .voice-service-tag {
-      font-size: 0.7rem;
-      background: #e0e7ff;
-      color: var(--primary);
-      padding: 0.25rem 0.5rem;
-      border-radius: 9999px;
-      margin-left: auto;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      .container {
-        padding: 1.5rem;
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
       }
       
-      h1 {
-        font-size: 2rem;
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
       }
       
-      .card {
-        padding: 1.5rem;
+      .login-buttons {
+        width: 100%;
+        justify-content: center;
       }
     }
+	/* Dropdown Styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 0.5rem 0;
+}
+
+.dropdown-content a {
+  color: var(--dark);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f5f9;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown i.fa-chevron-down {
+  font-size: 0.8rem;
+  margin-left: 5px;
+}
   </style>
 </head>
 <body>
+  <!-- New Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#2563eb" d="M40,50 L40,150 L60,150 L60,130 L80,130 L80,150 L100,150 L100,50 L80,50 L80,70 L60,70 L60,50 Z"/>
+        <path fill="#4f46e5" d="M120,50 C140,50 160,70 160,100 C160,130 140,150 120,150 C100,150 80,130 80,100 C80,70 100,50 120,50 Z" opacity="0.8"/>
+      </svg>
+      <span>SKY AI</span>
+    </div>
+    
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <div class="dropdown">
+        <a href="#">Tools <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#tts-section">Text to Voice</a>
+          <a href="#image-section">Text to AI Image</a>
+          <a href="#video-section">Text to AI Video</a>
+        </div>
+      </div>
+      <a href="#">Pricing</a>
+      <a href="#">About</a>
+    </div>
+    
+    <div class="login-buttons">
+      <button class="login-btn google-login">
+        <i class="fab fa-google"></i> Google
+      </button>
+      <button class="login-btn email-login">
+        <i class="fas fa-envelope"></i> Email
+      </button>
+    </div>
+  </nav>
+
   <div class="container">
+    <!-- Compact Header -->
     <header>
       <div class="logo-container">
         <div class="logo">
-          <i class="fas fa-brain"></i>
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Infinity symbol with cloud effect -->
+																																												
+            <path fill="#2563eb" d="M120,50 C140,50 160,70 160,100 C160,130 140,150 120,150 C100,150 80,130 80,100 C80,70 100,50 120,50 Z" opacity="0.9"/>
+            <path fill="#4f46e5" d="M120,70 C135,70 145,85 145,100 C145,115 135,130 120,130 C105,130 95,115 95,100 C95,85 105,70 120,70 Z" opacity="0.7"/>
+            <!-- Cloud shapes -->
+            <circle cx="110" cy="80" r="15" fill="white" filter="blur(4px)" opacity="0.8"/>
+            <circle cx="140" cy="90" r="12" fill="white" filter="blur(3px)" opacity="0.8"/>
+            <circle cx="90" cy="110" r="10" fill="white" filter="blur(3px)" opacity="0.8"/>
+          </svg>
+          <div class="logo-cloud"></div>
+          <div class="logo-cloud"></div>
+          <div class="logo-cloud"></div>
         </div>
       </div>
       <h1>SKY AI</h1>
       <p class="tagline">Transform your ideas into reality with our powerful AI content creation tools</p>
+      <p class="subtagline">Use free AI tools – For commercial use</p>
     </header>
     
+    <!-- Tools Sections (keep the same as before) -->
     <div class="main-grid">
       <!-- TTS Section -->
-      <section class="card">
+      <section class="card" id="tts-section">
+        <!-- ... (same content as before) ... -->
         <div class="card-header">
           <div class="card-icon">
             <i class="fas fa-volume-up"></i>
@@ -375,7 +578,8 @@
       </section>
       
       <!-- Image Generator Section -->
-      <section class="card">
+      <section class="card" id="image-section">
+        <!-- ... (same content as before) ... -->
         <div class="card-header">
           <div class="card-icon">
             <i class="fas fa-image"></i>
@@ -409,7 +613,8 @@
       </section>
       
       <!-- Video Generator Section -->
-      <section class="card video-section">
+      <section class="card video-section" id="video-section">
+        <!-- ... (same content as before) ... -->
         <div class="card-header">
           <div class="card-icon">
             <i class="fas fa-video"></i>
@@ -473,7 +678,7 @@
       });
     });
 
-    // Fetch available voices
+    // Fetch available voices with categories
     async function loadVoices() {
       try {
         const response = await fetch('/api/voices');
@@ -482,31 +687,43 @@
         const voiceSelect = document.getElementById('voiceSelect');
         voiceSelect.innerHTML = '';
         
-        // Group voices by service
-        const voiceGroups = {};
-        data.voices.forEach(voice => {
-          if (!voiceGroups[voice.service]) {
-            voiceGroups[voice.service] = [];
-          }
-          voiceGroups[voice.service].push(voice);
-        });
-        
-        // Create optgroups for each service
-        for (const [service, voices] of Object.entries(voiceGroups)) {
-          const optgroup = document.createElement('optgroup');
-          optgroup.label = `${service.toUpperCase()} VOICES`;
-          
-          voices.forEach(voice => {
+        // Add Basic Voices
+        if (data.categories.basic) {
+          const basicGroup = document.createElement('optgroup');
+          basicGroup.label = 'Basic Voices';
+          data.categories.basic.voices.forEach(voice => {
             const option = document.createElement('option');
             option.value = voice.id;
-            option.innerHTML = `
-              ${voice.name} (${voice.gender})
-              <span class="voice-service-tag">${voice.service}</span>
-            `;
-            optgroup.appendChild(option);
+            option.textContent = `${voice.name} (${voice.gender})`;
+            basicGroup.appendChild(option);
           });
-          
-          voiceSelect.appendChild(optgroup);
+          voiceSelect.appendChild(basicGroup);
+        }
+        
+        // Add Normal Voices
+        if (data.categories.normal) {
+          const normalGroup = document.createElement('optgroup');
+          normalGroup.label = 'Normal Voices';
+          data.categories.normal.voices.forEach(voice => {
+            const option = document.createElement('option');
+            option.value = voice.id;
+            option.textContent = `${voice.name} (${voice.lang.toUpperCase()})`;
+            normalGroup.appendChild(option);
+          });
+          voiceSelect.appendChild(normalGroup);
+        }
+        
+        // Add Advanced Voices if available
+        if (data.categories.advanced) {
+          const advancedGroup = document.createElement('optgroup');
+          advancedGroup.label = 'Advanced Voices';
+          data.categories.advanced.voices.forEach(voice => {
+            const option = document.createElement('option');
+            option.value = voice.id;
+            option.textContent = `${voice.name} (Premium)`;
+            advancedGroup.appendChild(option);
+          });
+          voiceSelect.appendChild(advancedGroup);
         }
       } catch (error) {
         console.error('Error loading voices:', error);
@@ -636,6 +853,22 @@
         console.error(error);
       }
     }
+	// ===== DROPDOWN FUNCTIONALITY =====
+    // Add dropdown toggle functionality
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+      dropdown.addEventListener('click', function(e) {
+        this.querySelector('.dropdown-content').classList.toggle('show');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    window.addEventListener('click', function(e) {
+      if (!e.target.matches('.dropdown a')) {
+        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+          dropdown.classList.remove('show');
+        });
+      }
+    });
   </script>
 </body>
 </html>
