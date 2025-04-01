@@ -73,6 +73,3 @@ face_detection
 gunicorn
 gdown
 pyttsx3
-logging
-logging.handlers
-RotatingFileHandler
