@@ -3,120 +3,637 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SKY AI Tools</title>
+  <title>SKY AI - Advanced AI Content Creation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; background-color: #f4f4f4; }
-    textarea, input, select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
-    button { background-color: #4A90E2; color: white; font-size: 16px; cursor: pointer; border: none; }
-    button:hover { background-color: #357ABD; }
-    h1, h2 { color: #4A90E2; text-align: center; }
-    .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
-    img, video, audio { max-width: 100%; margin-top: 15px; display: block; border-radius: 5px; }
-    label { font-weight: bold; }
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #6366f1;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      background-color: #f1f5f9;
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      color: white;
+      transform: rotate(10deg);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    
+    .tagline {
+      font-size: 1.1rem;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .video-section {
+        grid-column: span 2;
+      }
+    }
+    
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      color: white;
+      font-size: 1.25rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .card-description {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+    
+    textarea, input, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background-color: #f8fafc;
+    }
+    
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      background-color: white;
+    }
+    
+    .btn {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn i {
+      margin-right: 0.5rem;
+    }
+    
+    .result-container {
+      margin-top: 1.5rem;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-container.show {
+      display: block;
+    }
+    
+    img, video, audio {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .file-upload {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .file-upload-label {
+      display: block;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border: 2px dashed #e2e8f0;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .file-upload-label:hover {
+      background: #f1f5f9;
+      border-color: var(--primary-light);
+    }
+    
+    .file-upload-label i {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .file-name {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+    
+    .loading.show {
+      display: block;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(59, 130, 246, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--primary);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    /* Voice selector styles */
+    .voice-selector {
+      margin-bottom: 1.5rem;
+    }
+    
+    .voice-selector select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1em;
+    }
+    
+    .voice-option {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+    }
+    
+    .voice-service-tag {
+      font-size: 0.7rem;
+      background: #e0e7ff;
+      color: var(--primary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      margin-left: auto;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🚀 SKY AI Tools</h1>
+    <header>
+      <div class="logo-container">
+        <div class="logo">
+          <i class="fas fa-brain"></i>
+        </div>
+      </div>
+      <h1>SKY AI</h1>
+      <p class="tagline">Transform your ideas into reality with our powerful AI content creation tools</p>
+    </header>
     
-    <!-- TTS Section -->
-    <h2>🔊 Text-to-Speech</h2>
-    <textarea id="ttsText" placeholder="Enter text..."></textarea>
-    <label for="voice">Choose a voice:</label>
-    <select id="voice" name="voice">
-      <option value="female">Female</option>
-      <option value="male">Male</option>
-    </select>
-    <button onclick="generateTTS()">Convert to Speech</button>
-    <audio id="ttsAudio" controls style="display:none;"></audio>
+    <div class="main-grid">
+      <!-- TTS Section -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-volume-up"></i>
+          </div>
+          <h2>Text-to-Speech</h2>
+        </div>
+        <p class="card-description">Convert any text into natural sounding speech with multiple voice options</p>
+        
+        <textarea id="ttsText" placeholder="Enter the text you want to convert to speech..."></textarea>
+        
+        <div class="voice-selector">
+          <label for="voiceSelect">Select Voice:</label>
+          <select id="voiceSelect">
+            <!-- Options will be populated by JavaScript -->
+          </select>
+        </div>
+        
+        <button class="btn" onclick="generateTTS()">
+          <i class="fas fa-play"></i> Generate Speech
+        </button>
+        
+        <div id="ttsLoading" class="loading">
+          <div class="spinner"></div>
+          <p>Generating speech...</p>
+        </div>
+        
+        <div id="ttsResult" class="result-container">
+          <audio id="ttsAudio" controls></audio>
+        </div>
+      </section>
+      
+      <!-- Image Generator Section -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-image"></i>
+          </div>
+          <h2>AI Image Generator</h2>
+        </div>
+        <p class="card-description">Create stunning images from text descriptions with our AI artist</p>
+        
+        <input id="imagePrompt" placeholder="Describe the image you want to create..." />
+        
+        <label for="resolution">Image Resolution:</label>
+        <select id="resolution">
+          <option value="512x512">512 × 512 (Fast)</option>
+          <option value="1024x1024" selected>1024 × 1024 (Standard)</option>
+          <option value="1080x1920">1080 × 1920 (Portrait)</option>
+          <option value="1920x1080">1920 × 1080 (Landscape)</option>
+        </select>
+        
+        <button class="btn" onclick="generateImage()">
+          <i class="fas fa-magic"></i> Generate Image
+        </button>
+        
+        <div id="imageLoading" class="loading">
+          <div class="spinner"></div>
+          <p>Creating your image...</p>
+        </div>
+        
+        <div id="imageResult" class="result-container">
+          <img id="generatedImage" />
+        </div>
+      </section>
+      
+      <!-- Video Generator Section -->
+      <section class="card video-section">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-video"></i>
+          </div>
+          <h2>AI Video Generator</h2>
+        </div>
+        <p class="card-description">Create engaging videos by combining your images with audio</p>
+        
+        <div class="file-upload">
+          <label class="file-upload-label">
+            <i class="fas fa-file-audio"></i>
+            <div>Upload Audio File (.mp3, .wav)</div>
+            <input type="file" id="videoAudio" accept=".mp3, .wav" />
+          </label>
+          <div id="audioFileName" class="file-name"></div>
+        </div>
+        
+        <div class="file-upload">
+          <label class="file-upload-label">
+            <i class="fas fa-file-image"></i>
+            <div>Upload Image File (.jpg, .png)</div>
+            <input type="file" id="videoImage" accept=".jpg, .png" />
+          </label>
+          <div id="imageFileName" class="file-name"></div>
+        </div>
+        
+        <button class="btn" onclick="generateVideo()">
+          <i class="fas fa-film"></i> Generate Video
+        </button>
+        
+        <div id="videoLoading" class="loading">
+          <div class="spinner"></div>
+          <p>Creating your video... This may take a few moments.</p>
+        </div>
+        
+        <div id="videoResult" class="result-container">
+          <video id="generatedVideo" controls></video>
+        </div>
+      </section>
+    </div>
     
-    <!-- Image Generator Section -->
-    <h2>🖼️ AI Image Generator</h2>
-    <input id="imagePrompt" placeholder="Enter image description..." />
-    <label for="resolution">Choose Resolution:</label>
-    <select id="resolution">
-      <option value="512x512">512 x 512 (Fast)</option>
-      <option value="1080x1920">1080 x 1920 (Short)</option>
-      <option value="1920x1080">1920 x 1080 (Longs)</option>
-      <option value="1024x1024" selected>1024 x 1024 (Better)</option>
-      <option value="2048x2048">2048 x 2048 (High Quality)</option>
-    </select>
-    <button onclick="generateImage()">Generate Image</button>
-    <img id="generatedImage" style="display:none;" />
-    
-    <!-- Video Generator Section -->
-    <h2>🎬 AI Video Generator (Wav2Lip)</h2>
-    <label for="videoAudio">Upload Audio (.mp3, .wav):</label>
-    <input type="file" id="videoAudio" accept=".mp3, .wav" />
-    <label for="videoImage">Upload Image (.jpg, .png):</label>
-    <input type="file" id="videoImage" accept=".jpg, .png" />
-    <button onclick="generateVideo()">Generate Video</button>
-    <video id="generatedVideo" controls style="display:none; width: 100%;"></video>
+    <footer>
+      <p>© 2025 SKY AI. All rights reserved.</p>
+    </footer>
   </div>
 
   <script>
-    async function generateTTS() {
-      const text = document.getElementById("ttsText").value;
-      const voice = document.getElementById("voice").value;
-      const res = await fetch("/api/generate_tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, voice })
+    // Load available voices when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      loadVoices();
+      
+      // File upload display
+      document.getElementById('videoAudio').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file selected';
+        document.getElementById('audioFileName').textContent = fileName;
       });
-      const data = await res.json();
-      if (data.audio_url) {
-        const audio = document.getElementById("ttsAudio");
-        audio.src = data.audio_url;
-        audio.style.display = "block";
-        audio.play();
+      
+      document.getElementById('videoImage').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file selected';
+        document.getElementById('imageFileName').textContent = fileName;
+      });
+    });
+
+    // Fetch available voices
+    async function loadVoices() {
+      try {
+        const response = await fetch('/api/voices');
+        const data = await response.json();
+        
+        const voiceSelect = document.getElementById('voiceSelect');
+        voiceSelect.innerHTML = '';
+        
+        // Group voices by service
+        const voiceGroups = {};
+        data.voices.forEach(voice => {
+          if (!voiceGroups[voice.service]) {
+            voiceGroups[voice.service] = [];
+          }
+          voiceGroups[voice.service].push(voice);
+        });
+        
+        // Create optgroups for each service
+        for (const [service, voices] of Object.entries(voiceGroups)) {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = `${service.toUpperCase()} VOICES`;
+          
+          voices.forEach(voice => {
+            const option = document.createElement('option');
+            option.value = voice.id;
+            option.innerHTML = `
+              ${voice.name} (${voice.gender})
+              <span class="voice-service-tag">${voice.service}</span>
+            `;
+            optgroup.appendChild(option);
+          });
+          
+          voiceSelect.appendChild(optgroup);
+        }
+      } catch (error) {
+        console.error('Error loading voices:', error);
+      }
+    }
+
+    async function generateTTS() {
+      const text = document.getElementById("ttsText").value.trim();
+      if (!text) {
+        alert("Please enter some text to convert to speech.");
+        return;
+      }
+
+      const voiceId = document.getElementById("voiceSelect").value;
+      const loading = document.getElementById("ttsLoading");
+      const resultContainer = document.getElementById("ttsResult");
+      
+      loading.classList.add("show");
+      resultContainer.classList.remove("show");
+      
+      try {
+        const res = await fetch("/api/generate_tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            text: text,
+            voice_id: voiceId
+          })
+        });
+        
+        const data = await res.json();
+        
+        if (data.audio_url) {
+          const audio = document.getElementById("ttsAudio");
+          audio.src = data.audio_url;
+          loading.classList.remove("show");
+          resultContainer.classList.add("show");
+          audio.play();
+        } else {
+          throw new Error(data.message || "Failed to generate audio");
+        }
+      } catch (error) {
+        loading.classList.remove("show");
+        alert("Error: " + error.message);
+        console.error(error);
       }
     }
 
     async function generateImage() {
-      const prompt = document.getElementById("imagePrompt").value;
+      const prompt = document.getElementById("imagePrompt").value.trim();
+      if (!prompt) {
+        alert("Please enter a description for the image.");
+        return;
+      }
+
       const resolution = document.getElementById("resolution").value;
-      const res = await fetch("/api/generate_image", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, resolution })
-      });
-      const data = await res.json();
-      if (data.image_url) {
-        const img = document.getElementById("generatedImage");
-        img.src = data.image_url;
-        img.style.display = "block";
-      } else {
-        alert("Image generation failed.");
+      const loading = document.getElementById("imageLoading");
+      const resultContainer = document.getElementById("imageResult");
+      
+      loading.classList.add("show");
+      resultContainer.classList.remove("show");
+      
+      try {
+        const res = await fetch("/api/generate_image", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, resolution })
+        });
+        
+        const data = await res.json();
+        
+        if (data.image_url) {
+          const img = document.getElementById("generatedImage");
+          img.src = data.image_url;
+          loading.classList.remove("show");
+          resultContainer.classList.add("show");
+        } else {
+          throw new Error(data.message || "Failed to generate image");
+        }
+      } catch (error) {
+        loading.classList.remove("show");
+        alert("Error: " + error.message);
+        console.error(error);
       }
     }
 
     async function generateVideo() {
       const audioInput = document.getElementById("videoAudio").files[0];
       const imageInput = document.getElementById("videoImage").files[0];
-
+      
       if (!audioInput || !imageInput) {
-        alert("Please upload both audio (.mp3, .wav) and image (.jpg, .png) files.");
+        alert("Please upload both audio and image files.");
         return;
       }
 
-      const formData = new FormData();
-      formData.append("audio", audioInput);
-      formData.append("image", imageInput);
-      formData.append("lip_sync", "true");
+      const loading = document.getElementById("videoLoading");
+      const resultContainer = document.getElementById("videoResult");
+      
+      loading.classList.add("show");
+      resultContainer.classList.remove("show");
+      
+      try {
+        const formData = new FormData();
+        formData.append("audio", audioInput);
+        formData.append("image", imageInput);
+        formData.append("lip_sync", "true");
 
-      const res = await fetch("/api/generate_video", {
-        method: "POST",
-        body: formData
-      });
+        const res = await fetch("/api/generate_video", {
+          method: "POST",
+          body: formData
+        });
 
-      const data = await res.json();
-      if (data.video_url) {
-        const video = document.getElementById("generatedVideo");
-        video.src = data.video_url;
-        video.style.display = "block";
-        video.play();
-      } else {
-        alert("Video generation failed: " + (data.message || "Unknown error"));
+        const data = await res.json();
+        
+        if (data.video_url) {
+          const video = document.getElementById("generatedVideo");
+          video.src = data.video_url;
+          loading.classList.remove("show");
+          resultContainer.classList.add("show");
+          video.play();
+        } else {
+          throw new Error(data.message || "Failed to generate video");
+        }
+      } catch (error) {
+        loading.classList.remove("show");
+        alert("Error: " + error.message);
+        console.error(error);
       }
     }
   </script>
