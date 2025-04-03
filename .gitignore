@@ -36,3 +36,8 @@ Wav2Lip/
 __pycache__/
 static/uploads/
 temp/
+__pycache__/
+static/images/
+assets/
+*.pyc
+python

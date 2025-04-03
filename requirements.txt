@@ -73,3 +73,6 @@ face_detection
 gunicorn
 gdown
 pyttsx3
+TTS
+pydub
+edge_tts
