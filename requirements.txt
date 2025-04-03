@@ -73,8 +73,7 @@ face_detection
 gunicorn
 gdown
 pyttsx3
-tts==0.20.5
+tts==0.21.0
 pydub
 edge_tts
-asyncio
-tempfile
+
