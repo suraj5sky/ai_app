@@ -43,7 +43,7 @@ MarkupSafe==3.0.2
 matplotlib==3.10.1
 mpmath==1.3.0
 msgpack==1.1.0
-networkx==3.4.2
+networkx==2.8.8
 numba==0.61.0
 numpy==2.1.3
 packaging==24.2
@@ -64,7 +64,7 @@ soundfile==0.12.1
 soxr==0.5.0.post1
 sympy==1.13.1
 threadpoolctl==3.6.0
-torch==2.6.0
+torch==2.5.0
 tqdm==4.67.1
 typing_extensions==4.13.0
 urllib3==2.3.0
