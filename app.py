@@ -106,19 +106,27 @@ os.makedirs(AUDIO_FOLDER, exist_ok=True)
 os.makedirs('static/images', exist_ok=True)
 
 def download_wav2lip_model():
-    if os.path.exists(MODEL_PATH):
+    if os.path.exists(MODEL_PATH) and os.path.getsize(MODEL_PATH) > 100_000_000:  # ~100MB
         logger.info("Wav2Lip model already exists")
         return MODEL_PATH
 
-    model_url = "https://drive.google.com/uc?id=1DnMDc4SsVtOxMuSU62jRkDIS1CqRZ3AS"
-    logger.info("Downloading Wav2Lip model...")
+    file_id = "1Z6BUbVI0LqIzRrepoo13pflWE_XUXETs"
+    model_url = f"https://drive.google.com/uc?id={file_id}"
     
+    logger.info("Downloading Wav2Lip model...")
     try:
         gdown.download(model_url, MODEL_PATH, quiet=False)
+        
+        # Verify download completed
+        if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 100_000_000:
+            raise ValueError("Downloaded file is incomplete or corrupted")
+            
         logger.info("Wav2Lip model downloaded successfully")
         return MODEL_PATH
     except Exception as e:
         logger.error(f"Failed to download model: {str(e)}")
+        if os.path.exists(MODEL_PATH):  # Clean up partial downloads
+            os.remove(MODEL_PATH)
         raise
 
 def save_audio_file(audio_data, voice_id):
