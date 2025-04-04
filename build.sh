@@ -1,18 +1,14 @@
 #!/bin/bash
-set -e  # Exit on errors
+set -e  # Exit on error
 
-set -e  # Exit on errors
+# Install gdown via pip (not apt)
+pip install gdown
 
-# Install system dependencies
-apt-get update && apt-get install -y espeak ffmpeg
-
-
-
-# Download model
+# Create models directory
 mkdir -p models
-gdown "https://drive.google.com/drive/u/1/folders/1Z6BUbVI0LqIzRrepoo13pflWE_XUXETs" -O models/wav2lip.pth
 
-# Install dependencies
+# Download Wav2Lip model
+gdown "https://drive.google.com/uc?id=1Z6BUbVI0LqIzRrepoo13pflWE_XUXETs" -O models/wav2lip.pth
+
+# Install Python dependencies
 pip install -r requirements.txt
-
-
