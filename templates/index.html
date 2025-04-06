@@ -18,6 +18,9 @@
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
+      --pink: #ec4899;
+      --red: #ef4444;
+      --yellow: #f59e0b;
     }
     
     * {
@@ -135,7 +138,7 @@
       padding: 1.5rem;
     }
     
-    /* Updated AI Logo Animation */
+    /* Updated SKY Logo */
     .logo-container {
       position: relative;
       width: 60px;
@@ -145,40 +148,33 @@
       justify-content: center;
     }
 
-    .ai-logo {
+    .sky-logo {
       width: 100%;
       height: 100%;
-      animation: float 6s ease-in-out infinite, pulse 2s ease-in-out infinite, glitch 8s linear infinite;
       position: relative;
+      animation: float 6s ease-in-out infinite;
     }
 
-    .ai-logo svg {
+    .sky-logo svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+    .cloud {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 15px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0.4) 100%);
+      border-radius: 15px;
+      filter: blur(1px);
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
-    }
-
-    @keyframes glitch {
-      0% { filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5)); }
-      25% { filter: drop-shadow(-2px -2px 5px rgba(124, 58, 237, 0.5)); }
-      50% { filter: drop-shadow(2px 2px 5px rgba(59, 130, 246, 0.5)); }
-      75% { filter: drop-shadow(-2px 2px 5px rgba(124, 58, 237, 0.5)); }
-      100% { filter: drop-shadow(2px -2px 5px rgba(59, 130, 246, 0.5)); }
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
     }
     
     /* Header styles */
@@ -697,6 +693,34 @@
       padding-right: 2.5rem;
     }
     
+    /* Media type selector */
+    .media-type-selector {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border-radius: 10px;
+    }
+    
+    .media-type-selector label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    
+    .media-type-selector label:hover {
+      background: #e2e8f0;
+    }
+    
+    .media-type-selector input[type="radio"] {
+      accent-color: var(--primary);
+    }
+    
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .navbar {
@@ -726,49 +750,50 @@
       .tagline {
         font-size: 1.4rem;
       }
+      
+      .media-type-selector {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
     }
-  </style>
+  </style>																								
 </head>
 <body>
-  <!-- Compact Navigation Bar -->
+   <!-- Compact Navigation Bar -->
   <nav class="navbar">
     <a href="#" class="nav-brand" id="homeLink">
       <div class="logo-container">
-        <div class="ai-logo">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <!-- Modern AI logo with animated elements -->
+        <div class="sky-logo">
+          <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- SKY logo with gradients -->
             <defs>
-              <linearGradient id="skyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="sGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#2563eb" />
-                <stop offset="100%" stop-color="#7c3aed" />
+                <stop offset="100%" stop-color="#3b82f6" />
               </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
+              <linearGradient id="kGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ec4899" />
+                <stop offset="100%" stop-color="#f472b6" />
+              </linearGradient>
+              <linearGradient id="yGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ef4444" />
+                <stop offset="100%" stop-color="#f59e0b" />
+              </linearGradient>
             </defs>
             
-            <!-- Main logo shape - futuristic AI brain -->
-            <path d="M50,80 Q70,40 100,30 Q130,40 150,80 Q180,100 150,120 Q130,160 100,170 Q70,160 50,120 Q20,100 50,80 Z" 
-                  fill="url(#skyGradient)" opacity="0.9" filter="url(#glow)" />
+            <!-- S -->
+            <path d="M10,30 Q30,10 50,20 Q70,30 70,50 Q70,70 50,80 Q30,90 10,70" 
+                  fill="url(#sGradient)" stroke="none" />
             
-            <!-- AI circuit pattern -->
-            <path d="M70,90 L90,70 L110,90 L90,110 Z" fill="white" />
-            <path d="M80,80 L90,90 L100,80" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" />
+            <!-- K -->
+            <path d="M80,10 L80,90 M80,50 L120,10 M80,50 L120,90" 
+                  stroke="url(#kGradient)" stroke-width="12" stroke-linecap="round" fill="none" />
             
-            <!-- Neural network connections -->
-            <path d="M40,100 Q100,40 160,100" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="5,3">
-              <animate attributeName="stroke-dashoffset" values="0;20;0" dur="8s" repeatCount="indefinite" />
-            </path>
-            
-            <!-- Data nodes -->
-            <circle cx="120" cy="70" r="4" fill="white">
-              <animate attributeName="r" values="4;6;4" dur="3s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="140" cy="100" r="4" fill="white">
-              <animate attributeName="r" values="4;6;4" dur="4s" repeatCount="indefinite" />
-            </circle>
+            <!-- Y -->
+            <path d="M130,10 L150,50 L170,10 M150,50 L150,90" 
+                  stroke="url(#yGradient)" stroke-width="12" stroke-linecap="round" fill="none" />
           </svg>
+          <div class="cloud"></div>
         </div>
       </div>
       <div class="logo-text">
@@ -995,11 +1020,26 @@
         
         <label for="resolution">Image Resolution:</label>
         <select id="resolution">
-          <option value="512x512">512 × 512 (Fast)</option>
-          <option value="1024x1024" selected>1024 × 1024 (Standard)</option>
+          <option value="512x512">512 × 512 (Square)</option>
+          <option value="1024x1024" selected>1024 × 1024 (HD Square)</option>
           <option value="1080x1920">1080 × 1920 (Portrait)</option>
           <option value="1920x1080">1920 × 1080 (Landscape)</option>
+          <option value="custom">Custom Resolution</option>
         </select>
+
+        <!-- Custom resolution inputs (hidden by default) -->
+        <div id="customResolutionContainer" style="display: none; margin-top: 1rem;">
+          <div style="display: flex; gap: 1rem;">
+            <div style="flex: 1;">
+              <label for="customWidth">Width:</label>
+              <input type="number" id="customWidth" placeholder="e.g., 800" min="256" max="2048">
+            </div>
+            <div style="flex: 1;">
+              <label for="customHeight">Height:</label>
+              <input type="number" id="customHeight" placeholder="e.g., 600" min="256" max="2048">
+            </div>
+          </div>
+        </div>
         
         <button class="btn" onclick="generateImage()">
           <i class="fas fa-magic"></i> Generate Image
@@ -1023,37 +1063,68 @@
           </div>
           <h2>AI Video Generator</h2>
         </div>
-        <p class="card-description">Create engaging videos by combining your images with audio</p>
+        <p class="card-description">Create engaging videos by combining your media with audio</p>
         
-        <div class="file-upload">
-          <label class="file-upload-label">
-            <i class="fas fa-file-audio"></i>
-            <div>Upload Audio File (.mp3, .wav)</div>
-            <input type="file" id="videoAudio" accept=".mp3, .wav" />
-          </label>
-          <div id="audioFileName" class="file-name"></div>
-        </div>
-        
-        <div class="file-upload">
-          <label class="file-upload-label">
-            <i class="fas fa-file-image"></i>
-            <div>Upload Image File (.jpg, .png)</div>
-            <input type="file" id="videoImage" accept=".jpg, .png" />
-          </label>
-          <div id="imageFileName" class="file-name"></div>
-        </div>
-        
-        <button class="btn" onclick="generateVideo()">
-          <i class="fas fa-film"></i> Generate Video
-        </button>
+        <form id="videoForm" enctype="multipart/form-data">
+          <!-- Media type selector -->
+          <div class="media-type-selector">
+            <label>
+              <input type="radio" name="mediaType" value="image" checked>
+              <i class="fas fa-image"></i> 🖼️ Image + Audio → Generate Talking Face
+            </label>
+            <label>
+              <input type="radio" name="mediaType" value="video">
+              <i class="fas fa-video"></i> 🎥 Video + Audio → Sync Audio to Video
+            </label>
+          </div>
+
+          <!-- Audio upload -->
+          <div class="file-upload">
+            <label for="audioFile">Upload Audio File (.mp3, .wav)</label>
+            <input type="file" id="audioFile" name="audio" accept=".mp3,.wav" required>
+            <div id="audioFileName" class="file-name">No file selected</div>
+          </div>
+
+          <!-- Image upload (shown by default) -->
+          <div class="file-upload" id="imageUpload">
+            <label for="imageFile">Upload Image File (.png, .jpg, .jpeg)</label>
+            <input type="file" id="imageFile" name="image" accept=".png,.jpg,.jpeg" required>
+            <div id="imageFileName" class="file-name">No file selected</div>
+          </div>
+
+          <!-- Video upload (hidden by default) -->
+          <div class="file-upload" id="videoUpload" style="display:none">
+            <label for="videoFile">Upload Video File (.mp4, .mov)</label>
+            <input type="file" id="videoFile" name="video" accept=".mp4,.mov" required>
+            <div id="videoFileName" class="file-name">No file selected</div>
+          </div>
+
+          <!-- Lip Sync toggle (only shown for image+audio) -->
+          <div id="lipSyncContainer" style="margin-bottom: 1rem;">
+            <label style="display: flex; align-items: center;">
+              <input type="checkbox" id="lipSyncToggle" checked style="margin-right: 0.5rem;">
+              Enable Lip Sync (for images)
+            </label>
+          </div>
+          
+          <button type="button" class="btn" onclick="generateVideo()">
+            <i class="fas fa-film"></i> Generate Video
+          </button>
+        </form>
         
         <div id="videoLoading" class="loading">
           <div class="spinner"></div>
           <p>Creating your video... This may take a few moments.</p>
+          <p id="progressText" style="font-size: 0.9rem; margin-top: 0.5rem;"></p>
         </div>
         
         <div id="videoResult" class="result-container">
           <video id="generatedVideo" controls></video>
+          <div id="downloadContainer" style="margin-top: 1rem; text-align: center;">
+            <a id="downloadLink" class="btn" style="display: inline-block; width: auto; padding: 0.5rem 1rem;">
+              <i class="fas fa-download"></i> Download Video
+            </a>
+          </div>
         </div>
       </section>
     </div>
@@ -1061,9 +1132,9 @@
     <footer>
       <p>© 2025 SKY AI. All rights reserved.</p>
     </footer>
-  </div>
+  </div>										
 
-  <script>
+ <script>
     // Global variables
     let allVoices = [];
     
@@ -1075,14 +1146,26 @@
       document.getElementById('ttsText').addEventListener('input', updateCharCounter);
       
       // File upload display
-      document.getElementById('videoAudio').addEventListener('change', function(e) {
-        const fileName = e.target.files[0]?.name || 'No file selected';
-        document.getElementById('audioFileName').textContent = fileName;
+      document.getElementById('audioFile').addEventListener('change', function(e) {
+        document.getElementById('audioFileName').textContent = e.target.files[0]?.name || 'No file selected';
       });
       
-      document.getElementById('videoImage').addEventListener('change', function(e) {
-        const fileName = e.target.files[0]?.name || 'No file selected';
-        document.getElementById('imageFileName').textContent = fileName;
+      document.getElementById('imageFile').addEventListener('change', function(e) {
+        document.getElementById('imageFileName').textContent = e.target.files[0]?.name || 'No file selected';
+      });
+
+      document.getElementById('videoFile').addEventListener('change', function(e) {
+        document.getElementById('videoFileName').textContent = e.target.files[0]?.name || 'No file selected';
+      });
+
+      // Media type toggle
+      document.querySelectorAll('input[name="mediaType"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          const isImageMode = this.value === 'image';
+          document.getElementById('imageUpload').style.display = isImageMode ? 'block' : 'none';
+          document.getElementById('videoUpload').style.display = isImageMode ? 'none' : 'block';
+          document.getElementById('lipSyncContainer').style.display = isImageMode ? 'block' : 'none';
+        });
       });
 
       // Navigation functionality
@@ -1135,6 +1218,12 @@
           loginModal.style.display = 'none';
           signupModal.style.display = 'none';
         }
+      });
+
+      // Resolution selector change handler
+      document.getElementById("resolution").addEventListener("change", function() {
+        const customContainer = document.getElementById("customResolutionContainer");
+        customContainer.style.display = this.value === "custom" ? "block" : "none";
       });
     });
 
@@ -1197,8 +1286,13 @@
     // Fetch available voices
     async function loadVoices() {
       try {
+        console.log("Loading voices...");
         const response = await fetch('/api/voices');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
+        console.log("Voice data:", data);
         
         if (data.status === 'success') {
           allVoices = [];
@@ -1215,10 +1309,11 @@
           populateVoiceDropdown();
           filterVoices(); // Apply initial filter
         } else {
-          console.error('Error loading voices:', data.message);
+          throw new Error(data.message || "Failed to load voices");
         }
       } catch (error) {
-        console.error('Error loading voices:', error);
+        console.error("Error loading voices:", error);
+        alert("Error loading voices. Please check console for details.");
       }
     }
     
@@ -1238,28 +1333,6 @@
       allVoices.forEach(voice => {
         const option = document.createElement('option');
         option.value = voice.id;
-        
-        // Create a custom div for the option
-        const optionContent = document.createElement('div');
-        optionContent.className = 'voice-option';
-        
-        const genderIcon = document.createElement('div');
-        genderIcon.className = `voice-gender ${voice.gender}`;
-        genderIcon.innerHTML = voice.gender === 'male' ? '♂' : '♀';
-        
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'voice-name';
-        nameSpan.textContent = voice.name;
-        
-        const langSpan = document.createElement('span');
-        langSpan.className = 'voice-lang';
-        langSpan.textContent = voice.language.toUpperCase();
-        
-        optionContent.appendChild(genderIcon);
-        optionContent.appendChild(nameSpan);
-        optionContent.appendChild(langSpan);
-        
-        // For browsers that support HTML in options
         option.innerHTML = `
           <div class="voice-option">
             <div class="voice-gender ${voice.gender}">${voice.gender === 'male' ? '♂' : '♀'}</div>
@@ -1267,12 +1340,9 @@
             <span class="voice-lang">${voice.language.toUpperCase()}</span>
           </div>
         `;
-        
-        // Set the title for accessibility
         option.title = `${voice.name} (${voice.gender}) - ${voice.language.toUpperCase()}`;
         option.setAttribute('data-lang', voice.language);
         option.setAttribute('data-gender', voice.gender);
-        
         voiceSelect.appendChild(option);
       });
     }
@@ -1318,6 +1388,7 @@
       resultContainer.classList.remove("show");
       
       try {
+        console.log("Generating TTS with voice:", voiceId);
         const response = await fetch("/api/generate_tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -1333,6 +1404,7 @@
         }
         
         const data = await response.json();
+        console.log("TTS response:", data);
         
         if (data.status === 'error') {
           throw new Error(data.message);
@@ -1342,7 +1414,6 @@
           const audio = document.getElementById("ttsAudio");
           audio.src = data.audio_url;
           
-          // Add event listener for errors
           audio.onerror = function() {
             loading.classList.remove("show");
             alert("Error playing audio. The selected voice might not support this text.");
@@ -1363,14 +1434,12 @@
         loading.classList.remove("show");
         console.error("TTS Error:", error);
         
-        // More user-friendly error messages
         let errorMsg = "Failed to generate speech. ";
         if (error.message.includes('Hindi') || (voiceId && voiceId.includes('hi'))) {
           errorMsg += "Hindi voice might not be available. Trying English fallback...";
-          // Auto-fallback to English
           document.getElementById('languageSelect').value = 'english';
           filterVoices();
-          setTimeout(generateTTS, 1000); // Retry with English
+          setTimeout(generateTTS, 1000);
           return;
         } else {
           errorMsg += "Please try a different voice or text.";
@@ -1387,7 +1456,7 @@
         return;
       }
 
-      const resolution = document.getElementById("resolution").value;
+      let resolution = document.getElementById("resolution").value;
       const loading = document.getElementById("imageLoading");
       const resultContainer = document.getElementById("imageResult");
       
@@ -1395,13 +1464,33 @@
       resultContainer.classList.remove("show");
       
       try {
+        // Handle custom resolution
+        let width, height;
+        if (resolution === "custom") {
+          width = parseInt(document.getElementById("customWidth").value) || 1024;
+          height = parseInt(document.getElementById("customHeight").value) || 1024;
+        } else {
+          [width, height] = resolution.split('x').map(Number);
+        }
+
+        console.log("Generating image with:", { prompt, resolution, width, height });
         const res = await fetch("/api/generate_image", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, resolution })
+          body: JSON.stringify({ 
+            prompt, 
+            resolution,
+            width,
+            height
+          })
         });
         
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
         const data = await res.json();
+        console.log("Image response:", data);
         
         if (data.image_url) {
           const img = document.getElementById("generatedImage");
@@ -1413,58 +1502,89 @@
         }
       } catch (error) {
         loading.classList.remove("show");
-        alert("Error: " + error.message);
-        console.error(error);
+        console.error("Image generation error:", error);
+        alert("Error generating image: " + error.message);
       }
     }
 
+    // Updated video generation function
     async function generateVideo() {
-      const audioInput = document.getElementById("videoAudio").files[0];
-      const imageInput = document.getElementById("videoImage").files[0];
+      const mediaType = document.querySelector('input[name="mediaType"]:checked').value;
+      const lipSync = document.getElementById('lipSyncToggle').checked;
+      const loading = document.getElementById('videoLoading');
+      const resultContainer = document.getElementById('videoResult');
+      const progressText = document.getElementById('progressText');
       
-      if (!audioInput || !imageInput) {
-        alert("Please upload both audio and image files.");
-        return;
+      // Get the appropriate files based on media type
+      const audioFile = document.getElementById('audioFile').files[0];
+      const mediaFile = mediaType === 'image' 
+          ? document.getElementById('imageFile').files[0]
+          : document.getElementById('videoFile').files[0];
+
+      if (!audioFile || !mediaFile) {
+          alert("Please upload both required files");
+          return;
       }
 
-      const loading = document.getElementById("videoLoading");
-      const resultContainer = document.getElementById("videoResult");
-      
-      loading.classList.add("show");
-      resultContainer.classList.remove("show");
-      
+      loading.classList.add('show');
+      resultContainer.classList.remove('show');
+      progressText.textContent = "Uploading files...";
+
+      const formData = new FormData();
+      formData.append('audio', audioFile);
+      formData.append('media', mediaFile);
+      formData.append('lip_sync', lipSync.toString());
+      formData.append('media_type', mediaType);
+
       try {
-        const formData = new FormData();
-        formData.append("audio", audioInput);
-        formData.append("image", imageInput);
-        formData.append("lip_sync", "true");
+          const response = await fetch('/api/generate_video', {
+              method: 'POST',
+              body: formData
+          });
 
-        const res = await fetch("/api/generate_video", {
-          method: "POST",
-          body: formData
-        });
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.message || "Video generation failed");
+          }
 
-        const data = await res.json();
-        
-        if (data.video_url) {
-          const video = document.getElementById("generatedVideo");
-          video.src = data.video_url;
-          loading.classList.remove("show");
-          resultContainer.classList.add("show");
-          video.play();
-        } else {
-          throw new Error(data.message || "Failed to generate video");
-        }
+          progressText.textContent = "Processing video...";
+          
+          const data = await response.json();
+          console.log("Video response:", data);
+          
+          if (data.video_url) {
+              const video = document.getElementById("generatedVideo");
+              video.src = data.video_url;
+              
+              // Set up download link
+              const downloadLink = document.getElementById("downloadLink");
+              downloadLink.href = data.video_url;
+              downloadLink.download = `skyai_video_${new Date().getTime()}.mp4`;
+              
+              loading.classList.remove("show");
+              resultContainer.classList.add("show");
+              
+              video.oncanplay = function() {
+                  video.play().catch(e => console.log("Autoplay prevented:", e));
+              };
+          } else {
+              throw new Error(data.message || "Failed to generate video");
+          }
       } catch (error) {
-        loading.classList.remove("show");
-        alert("Error: " + error.message);
-        console.error(error);
+          loading.classList.remove("show");
+          console.error("Video generation error:", error);
+          
+          let errorMsg = "Error generating video: " + error.message;
+          if (error.message.includes('Wav2Lip') || error.message.includes('lip sync')) {
+              errorMsg += "\n\nTry disabling lip sync or using a different image.";
+          }
+          
+          alert(errorMsg);
       }
     }
 
     // Login functions
     function loginWithGoogle() {
-      // In a real implementation, this would use Firebase or another auth service
       alert("Redirecting to Google login...");
       // window.location.href = "/auth/google";
     }
@@ -1478,13 +1598,11 @@
         return;
       }
       
-      // In a real implementation, this would call your auth API
       alert(`Logging in with email: ${email}`);
       document.getElementById("loginModal").style.display = "none";
     }
     
     function signupWithGoogle() {
-      // In a real implementation, this would use Firebase or another auth service
       alert("Redirecting to Google signup...");
       // window.location.href = "/auth/google";
     }
@@ -1505,7 +1623,6 @@
         return;
       }
       
-      // In a real implementation, this would call your auth API
       alert(`Creating account for: ${email}`);
       document.getElementById("signupModal").style.display = "none";
     }
