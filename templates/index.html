@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
   <title>SKY AI - Advanced AI Content Creation</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -141,37 +142,26 @@
     /* Updated SKY Logo */
     .logo-container {
       position: relative;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
+    
     .sky-logo {
       width: 100%;
       height: 100%;
       position: relative;
       animation: float 6s ease-in-out infinite;
     }
-
+    
     .sky-logo svg {
       width: 100%;
       height: 100%;
+      overflow: visible;
     }
-
-    .cloud {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 15px;
-      background: linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0.4) 100%);
-      border-radius: 15px;
-      filter: blur(1px);
-    }
-
+    
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
@@ -721,6 +711,58 @@
       accent-color: var(--primary);
     }
     
+    /* Voice details modal */
+    .voice-details {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .voice-details-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .voice-details-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .voice-details-body {
+      margin-bottom: 1.5rem;
+    }
+    
+    .voice-details-body p {
+      margin-bottom: 0.5rem;
+    }
+    
+    .voice-details-body .sample-text {
+      font-style: italic;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    
+    .voice-details-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+    
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .navbar {
@@ -765,8 +807,13 @@
       <div class="logo-container">
         <div class="sky-logo">
           <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- SKY logo with gradients -->
             <defs>
+              <!-- Import Shrikhand font -->
+              <style>
+                @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+              </style>
+              
+              <!-- Gradients -->
               <linearGradient id="sGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#2563eb" />
                 <stop offset="100%" stop-color="#3b82f6" />
@@ -776,24 +823,48 @@
                 <stop offset="100%" stop-color="#f472b6" />
               </linearGradient>
               <linearGradient id="yGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#ef4444" />
-                <stop offset="100%" stop-color="#f59e0b" />
+                <stop offset="0%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#ef4444" />
               </linearGradient>
+              
+              <!-- Combined sun and cloud -->
+              <filter id="cloudSunEffect" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
             </defs>
             
-            <!-- S -->
-            <path d="M10,30 Q30,10 50,20 Q70,30 70,50 Q70,70 50,80 Q30,90 10,70" 
-                  fill="url(#sGradient)" stroke="none" />
+            <!-- SKY text with Shrikhand font -->
+            <text x="10" y="65" font-family="Shrikhand" font-size="60" font-weight="bold" fill="url(#sGradient)">S</text>
+            <text x="65" y="65" font-family="Shrikhand" font-size="60" font-weight="bold" fill="url(#kGradient)">K</text>
+            <text x="120" y="65" font-family="Shrikhand" font-size="60" font-weight="bold" fill="url(#yGradient)">Y</text>
             
-            <!-- K -->
-            <path d="M80,10 L80,90 M80,50 L120,10 M80,50 L120,90" 
-                  stroke="url(#kGradient)" stroke-width="12" stroke-linecap="round" fill="none" />
-            
-            <!-- Y -->
-            <path d="M130,10 L150,50 L170,10 M150,50 L150,90" 
-                  stroke="url(#yGradient)" stroke-width="12" stroke-linecap="round" fill="none" />
+            <!-- Combined sun and cloud element -->
+            <g transform="translate(100,-5)" filter="url(#cloudSunEffect)">
+              <!-- Sun core -->
+              <circle r="8" fill="#f59e0b" stroke="#ef4444" stroke-width="1.5">
+                <animate attributeName="r" values="8;9;8" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Cloud part -->
+              <path d="M-25,-5 Q-15,-15 0,-5 Q15,-15 25,-5" 
+                    stroke="rgba(59,130,246,0.4)" 
+                    stroke-width="10" 
+                    fill="none" 
+                    stroke-linecap="round"/>
+              <!-- Sun rays -->
+              <g stroke="#f59e0b" stroke-width="2" stroke-linecap="round">
+                <line x1="0" y1="-10" x2="0" y2="-20">
+                  <animate attributeName="y2" values="-20;-25;-20" dur="3s" repeatCount="indefinite"/>
+                </line>
+                <line x1="-10" y1="-5" x2="-20" y2="-10">
+                  <animate attributeName="x2" values="-20;-25;-20" dur="3s" repeatCount="indefinite"/>
+                </line>
+                <line x1="10" y1="-5" x2="20" y2="-10">
+                  <animate attributeName="x2" values="20;25;20" dur="3s" repeatCount="indefinite"/>
+                </line>
+              </g>
+            </g>
           </svg>
-          <div class="cloud"></div>
         </div>
       </div>
       <div class="logo-text">
@@ -878,6 +949,37 @@
       <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
         Already have an account? <a href="#" onclick="showLogin()" style="color: var(--primary);">Log in</a>
       </p>
+    </div>
+  </div>
+
+  <!-- Voice Details Modal -->
+  <div class="voice-details" id="voiceDetailsModal">
+    <div class="voice-details-content">
+      <div class="voice-details-header">
+        <h2 id="voiceDetailsTitle">Voice Details</h2>
+        <span class="close-modal" onclick="closeVoiceDetails()">&times;</span>
+      </div>
+      <div class="voice-details-body">
+        <p><strong>Language:</strong> <span id="voiceDetailsLanguage"></span></p>
+        <p><strong>Gender:</strong> <span id="voiceDetailsGender"></span></p>
+        <p><strong>Style:</strong> <span id="voiceDetailsStyle"></span></p>
+        <p><strong>Use Cases:</strong> <span id="voiceDetailsUseCases"></span></p>
+        <p><strong>Age Range:</strong> <span id="voiceDetailsAge"></span></p>
+        <p><strong>Mood:</strong> <span id="voiceDetailsMood"></span></p>
+        <p><strong>Description:</strong> <span id="voiceDetailsDesc"></span></p>
+        <div class="sample-text">
+          <strong>Sample Text:</strong>
+          <p id="voiceDetailsSample"></p>
+        </div>
+      </div>
+      <div class="voice-details-footer">
+        <button class="btn" onclick="playVoiceSample()">
+          <i class="fas fa-play"></i> Play Sample
+        </button>
+        <button class="btn" onclick="closeVoiceDetails()" style="background: var(--gray);">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
     </div>
   </div>
 
@@ -968,8 +1070,8 @@
         </div>
         <p class="card-description">Convert any text into natural sounding speech with multiple voice options</p>
         
-        <textarea id="ttsText" placeholder="Enter the text you want to convert to speech..." maxlength="2000"></textarea>
-        <div class="char-counter" id="charCounter">0/2000 characters</div>
+        <textarea id="ttsText" placeholder="Enter the text you want to convert to speech..." maxlength="5000"></textarea>
+        <div class="char-counter" id="charCounter">0/5000 characters</div>
         
         <div class="voice-selector">
           <label for="languageSelect">Select Language:</label>
@@ -982,14 +1084,22 @@
             <option value="arabic">Arabic</option>
             <option value="german">German</option>
             <option value="japanese">Japanese</option>
+            <option value="bengali">Bengali</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="tamil">Tamil</option>
+            <option value="punjabi">Punjabi</option>
+            <option value="kannada">Kannada</option>
           </select>
         </div>
         
         <div class="voice-selector">
           <label for="voiceSelect">Select Voice:</label>
-          <select id="voiceSelect">
+          <select id="voiceSelect" onchange="updateVoiceDetailsButton()">
             <!-- Options will be populated by JavaScript -->
           </select>
+          <button id="voiceDetailsBtn" class="btn" style="margin-top: 0.5rem; background: var(--gray);">
+            <i class="fas fa-info-circle"></i> View Voice Details
+          </button>
         </div>
         
         <button class="btn" onclick="generateTTS()">
@@ -1003,6 +1113,7 @@
         
         <div id="ttsResult" class="result-container">
           <audio id="ttsAudio" controls></audio>
+          <div id="ttsMetadata" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--gray);"></div>
         </div>
       </section>
       
@@ -1137,6 +1248,7 @@
  <script>
     // Global variables
     let allVoices = [];
+    let currentVoiceDetails = null;
     
     // Load available voices when page loads
     document.addEventListener('DOMContentLoaded', function() {
@@ -1225,6 +1337,9 @@
         const customContainer = document.getElementById("customResolutionContainer");
         customContainer.style.display = this.value === "custom" ? "block" : "none";
       });
+
+      // Voice details button click handler
+      document.getElementById("voiceDetailsBtn").addEventListener("click", showVoiceDetails);
     });
 
     // Show main content
@@ -1268,7 +1383,7 @@
       const textarea = document.getElementById('ttsText');
       const counter = document.getElementById('charCounter');
       const count = textarea.value.length;
-      const max = 2000;
+      const max = 5000;
       
       counter.textContent = `${count}/${max} characters`;
       
@@ -1332,7 +1447,7 @@
       // Add all voices as options with custom styling
       allVoices.forEach(voice => {
         const option = document.createElement('option');
-        option.value = voice.id;
+        option.value = voice.id || voice.coqui_model;
         option.innerHTML = `
           <div class="voice-option">
             <div class="voice-gender ${voice.gender}">${voice.gender === 'male' ? '♂' : '♀'}</div>
@@ -1343,8 +1458,105 @@
         option.title = `${voice.name} (${voice.gender}) - ${voice.language.toUpperCase()}`;
         option.setAttribute('data-lang', voice.language);
         option.setAttribute('data-gender', voice.gender);
+        option.setAttribute('data-voice-data', JSON.stringify(voice));
         voiceSelect.appendChild(option);
       });
+      
+      // Update voice details button state
+      updateVoiceDetailsButton();
+    }
+    
+    // Update voice details button state based on selection
+    function updateVoiceDetailsButton() {
+      const voiceSelect = document.getElementById('voiceSelect');
+      const selectedOption = voiceSelect.options[voiceSelect.selectedIndex];
+      const voiceDetailsBtn = document.getElementById('voiceDetailsBtn');
+      
+      if (selectedOption && selectedOption.value) {
+        voiceDetailsBtn.disabled = false;
+        voiceDetailsBtn.style.opacity = '1';
+        voiceDetailsBtn.style.cursor = 'pointer';
+      } else {
+        voiceDetailsBtn.disabled = true;
+        voiceDetailsBtn.style.opacity = '0.6';
+        voiceDetailsBtn.style.cursor = 'not-allowed';
+      }
+    }
+    
+    // Show voice details modal
+    function showVoiceDetails() {
+      const voiceSelect = document.getElementById('voiceSelect');
+      const selectedOption = voiceSelect.options[voiceSelect.selectedIndex];
+      
+      if (!selectedOption || !selectedOption.value) return;
+      
+      try {
+        const voiceData = JSON.parse(selectedOption.getAttribute('data-voice-data'));
+        currentVoiceDetails = voiceData;
+        
+        // Populate modal with voice details
+        document.getElementById('voiceDetailsTitle').textContent = `${voiceData.name} (${voiceData.language})`;
+        document.getElementById('voiceDetailsLanguage').textContent = voiceData.language.charAt(0).toUpperCase() + voiceData.language.slice(1);
+        document.getElementById('voiceDetailsGender').textContent = voiceData.gender.charAt(0).toUpperCase() + voiceData.gender.slice(1);
+        document.getElementById('voiceDetailsStyle').textContent = voiceData.style || 'Not specified';
+        document.getElementById('voiceDetailsUseCases').textContent = Array.isArray(voiceData.use_cases) ? voiceData.use_cases.join(', ') : 'Various';
+        document.getElementById('voiceDetailsAge').textContent = voiceData.age_range || 'Not specified';
+        document.getElementById('voiceDetailsMood').textContent = voiceData.mood || 'Not specified';
+        document.getElementById('voiceDetailsDesc').textContent = voiceData.description || 'No description available';
+        document.getElementById('voiceDetailsSample').textContent = voiceData.sample_text || 'No sample text available';
+        
+        // Show modal
+        document.getElementById('voiceDetailsModal').style.display = 'flex';
+      } catch (error) {
+        console.error("Error showing voice details:", error);
+        alert("Could not load voice details. Please try another voice.");
+      }
+    }
+    
+    // Close voice details modal
+    function closeVoiceDetails() {
+      document.getElementById('voiceDetailsModal').style.display = 'none';
+      currentVoiceDetails = null;
+    }
+    
+    // Play voice sample
+    async function playVoiceSample() {
+      if (!currentVoiceDetails) return;
+      
+      try {
+        const sampleText = currentVoiceDetails.sample_text || 'Hello, this is a sample of my voice';
+        const voiceId = currentVoiceDetails.id || currentVoiceDetails.coqui_model;
+        const language = currentVoiceDetails.language;
+        
+        const response = await fetch("/api/generate_tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            text: sampleText,
+            voice_id: voiceId,
+            language: language
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.audio_url) {
+          const audio = new Audio(data.audio_url);
+          audio.play().catch(e => {
+            console.error("Playback failed:", e);
+            alert("Could not play sample. Please check your audio settings.");
+          });
+        } else {
+          throw new Error("No audio URL returned");
+        }
+      } catch (error) {
+        console.error("Error playing voice sample:", error);
+        alert("Could not play voice sample. Please try again.");
+      }
     }
     
     // Filter voices based on language selection
@@ -1371,6 +1583,9 @@
           }
         }
       }
+      
+      // Update voice details button state
+      updateVoiceDetailsButton();
     }
 
     async function generateTTS() {
@@ -1413,6 +1628,18 @@
         if (data.audio_url) {
           const audio = document.getElementById("ttsAudio");
           audio.src = data.audio_url;
+          
+          // Update metadata display
+          const metadataDiv = document.getElementById("ttsMetadata");
+          if (data.voice_metadata) {
+            metadataDiv.innerHTML = `
+              <p><strong>Voice:</strong> ${data.voice_used}</p>
+              <p><strong>Style:</strong> ${data.voice_metadata.style || 'N/A'}</p>
+              <p><strong>Use Cases:</strong> ${Array.isArray(data.voice_metadata.use_cases) ? data.voice_metadata.use_cases.join(', ') : 'N/A'}</p>
+            `;
+          } else {
+            metadataDiv.innerHTML = `<p><strong>Voice:</strong> ${data.voice_used}</p>`;
+          }
           
           audio.onerror = function() {
             loading.classList.remove("show");
@@ -1469,6 +1696,7 @@
         if (resolution === "custom") {
           width = parseInt(document.getElementById("customWidth").value) || 1024;
           height = parseInt(document.getElementById("customHeight").value) || 1024;
+          resolution = `${width}x${height}`;
         } else {
           [width, height] = resolution.split('x').map(Number);
         }
